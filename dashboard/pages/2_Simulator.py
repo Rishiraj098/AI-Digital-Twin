@@ -1,7 +1,8 @@
-import streamlit as st
-from ChatBot.consultant_bot import business_chat
 import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import streamlit as st
+from ChatBot.consultant_bot import business_chat
+
 
 from utils.style_loader import load_css
 load_css()
