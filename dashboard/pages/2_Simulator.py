@@ -1,11 +1,12 @@
-import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import sys
+import os
+
+ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+sys.path.append(ROOT_PATH)
+
 import streamlit as st
 from ChatBot.consultant_bot import business_chat
-
-
 from utils.style_loader import load_css
-load_css()
 
 st.title("Business Simulator")
 
