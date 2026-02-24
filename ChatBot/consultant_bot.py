@@ -1,35 +1,43 @@
 from engine.simulator import predict_sales
-from engine.automation import analyze_decision
-from GenAi.insight_engine import generate_insight
 
-def business_chat(marketing, employees, time):
+def business_chat(query, marketing=None, employees=None, time=None):
 
-    sales = predict_sales(marketing, employees, time)
+    # Step 1: Get prediction from simulator
+    marketing = marketing or 30000
+    employees = employees or 20
+    time = time or 30
+    prediction = predict_sales(marketing, employees, time)
 
-    automation = analyze_decision(sales, marketing, employees)
+    # Step 2: AI Explanation
+    explanation = f"""
+Based on:
 
-    insight = generate_insight(marketing, employees, sales)
+• Marketing Spend: {marketing}
+• Employees: {employees}
+• Time: {time} days
 
-    response = {
-        "Predicted Sales": sales,
-        "Risk Level": automation["Risk Level"],
-        "Insight": automation["Insight"],
-        "Suggested Action": automation["Suggested Action"],
-        "AI Explanation": insight["Explanation"],
-        "Growth Insight": insight["Growth Insight"],
-        "Strategic Advice": insight["Strategic Advice"]
+Predicted Sales: {prediction["Predicted Sales"]}
+Growth Rate: {prediction["Growth Rate"]}%
+Risk Level: {prediction["Risk Level"]}
+"""
+
+    # Step 3: Strategic Advice
+    advice = []
+
+    if marketing < 60000:
+        advice.append("Increase marketing for better growth")
+    else:
+        advice.append("Marketing spend is sufficient")
+
+    if employees < 15:
+        advice.append("Hiring more staff may improve operations")
+    else:
+        advice.append("Workforce size is stable")
+
+    if time < 30:
+        advice.append("Longer planning horizon can boost impact")
+
+    return {
+        "AI Explanation": explanation,
+        "Strategic Advice": advice
     }
-
-    return response
-
-if __name__ == "__main__":
-    
-    test = business_chat(
-        marketing=50000,
-        employees=20,
-        time=30
-    )
-
-    print("\n--- AI Business Consultant Output ---\n")
-    for key, value in test.items():
-        print(f"{key}: {value}")
